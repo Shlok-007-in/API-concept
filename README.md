@@ -13,12 +13,6 @@ and the failure modes that only show up once real traffic hits a real service.*
 
 </div>
 
----
-
-> **Note:** replace this line with a GIF of the demo in action — record yourself
-> triggering a 401, then a success, then an idempotent replay. It's the fastest
-> way for anyone reading this to see the backend is real. See
-> [Recording a demo GIF](#recording-a-demo-gif) at the bottom.
 
 ## Why this exists
 
