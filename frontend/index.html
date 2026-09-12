@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PulseTrace — API Flow Explainer</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <h1>PulseTrace API Console</h1>
+        <p>A visual walkthrough of a request travelling through a real API</p>
+      </div>
+    </div>
+    <div class="status-pill">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Idle — ready to send</span>
+    </div>
+  </header>
+
+  <div id="modeBanner" class="mode-banner" hidden></div>
+
+  <div class="grid">
+
+    <!-- REQUEST -->
+    <div class="glass-card">
+      <div class="card-label">Request</div>
+      <div class="card-title">Build a call</div>
+
+      <div class="field">
+        <label>Bearer token</label>
+        <div class="key-row">
+          <span id="tokenDisplay">No token yet</span>
+          <button id="getTokenBtn" type="button">Get token</button>
+        </div>
+      </div>
+
+      <div class="field method-row">
+        <select id="method">
+          <option>GET</option>
+          <option>POST</option>
+        </select>
+        <input type="text" value="/v1/users/42" readonly style="flex:1;" />
+      </div>
+
+      <div class="field" id="idemField">
+        <label>Idempotency-Key <span class="hint">(reuse it to see a safe replay)</span></label>
+        <div class="key-row">
+          <span id="idemDisplay"></span>
+          <button id="newIdemBtn" type="button">new key</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Demo failure mode</label>
+        <select id="simulate">
+          <option value="">None — normal request</option>
+          <option value="no-token">Send without a token → 401</option>
+          <option value="429">Force rate limit → 429</option>
+          <option value="500">Force backend crash → 500</option>
+        </select>
+      </div>
+
+      <div class="field" style="margin-bottom:6px;">
+        <label>Request payload</label>
+        <div class="payload-preview" id="payloadPreview"></div>
+      </div>
+
+      <button class="send-btn" id="sendBtn">Send request</button>
+    </div>
+
+    <!-- FLOW -->
+    <div class="glass-card flow-card">
+      <div class="card-label" style="align-self:flex-start;">Live path</div>
+      <div class="card-title" style="align-self:flex-start;">Where your call actually goes</div>
+      <div class="flow-svg-wrap">
+        <svg id="flowSvg" viewBox="0 0 640 220" width="100%" role="img" aria-label="API request flow diagram"></svg>
+      </div>
+      <div class="flow-caption" id="flowCaption">Waiting for a request…</div>
+    </div>
+
+    <!-- RESPONSE -->
+    <div class="glass-card">
+      <div class="card-label">Response</div>
+      <div class="card-title">What comes back</div>
+      <div class="response-meta" id="responseMeta"></div>
+      <div class="response-body empty" id="responseBody">No response yet — send a request to see it arrive here.</div>
+    </div>
+
+  </div>
+
+  <!-- LOG -->
+  <div class="glass-card log-card">
+    <div class="card-label">Trace</div>
+    <div class="card-title">Step-by-step timeline</div>
+    <div class="log-console" id="logConsole">
+      <div class="log-empty">Logs will appear here once a request is sent.</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="flow.js"></script>
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
